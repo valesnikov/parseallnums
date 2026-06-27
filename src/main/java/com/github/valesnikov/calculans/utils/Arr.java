@@ -7,8 +7,7 @@ import java.util.List;
 public class Arr {
     @SafeVarargs
     public static String concatAllStr(Collection<Integer>... lists) {
-        var all = concatAll(lists);
-        return all.stream()
+        return concatAll(lists).stream()
                 .collect(StringBuilder::new,
                         (sb, cp) -> sb.appendCodePoint(cp),
                         StringBuilder::append)

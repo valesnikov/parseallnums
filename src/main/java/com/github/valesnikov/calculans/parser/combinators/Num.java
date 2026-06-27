@@ -43,9 +43,9 @@ public class Num {
                     if (s.isEmpty()) {
                         return BigFraction.ZERO;
                     } else {
-                        var fracLen = s.length();
-                        var nom = new BigInteger(s, radix);
-                        var denom = BigInteger.valueOf(radix).pow(fracLen);
+                        final var fracLen = s.length();
+                        final var nom = new BigInteger(s, radix);
+                        final var denom = BigInteger.valueOf(radix).pow(fracLen);
                         return new BigFraction(nom, denom);
                     }
                 });

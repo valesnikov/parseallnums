@@ -34,8 +34,7 @@ public class StrState {
     }
 
     public StrState next() {
-        var isNewLine = chr() == '\n';
-        return isNewLine
+        return chr() == '\n'
                 ? new StrState(slice, index + 1, line + 1, 0)
                 : new StrState(slice, index + 1, line, column + 1);
     }
