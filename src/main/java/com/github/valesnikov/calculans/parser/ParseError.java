@@ -1,7 +1,5 @@
 package com.github.valesnikov.calculans.parser;
 
-import com.github.valesnikov.calculans.parser.input.StrState;
-
 public class ParseError {
     private final int index;
     private final int line;

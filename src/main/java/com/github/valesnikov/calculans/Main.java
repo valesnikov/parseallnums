@@ -3,9 +3,10 @@ package com.github.valesnikov.calculans;
 import org.apache.commons.math3.fraction.BigFraction;
 
 import com.github.valesnikov.calculans.parser.State;
+import com.github.valesnikov.calculans.parser.StrState;
+
 import static com.github.valesnikov.calculans.parser.combinators.Base.*;
 import static com.github.valesnikov.calculans.parser.combinators.Num.*;
-import com.github.valesnikov.calculans.parser.input.StrState;
 
 public class Main {
     public static void main(String[] args) {

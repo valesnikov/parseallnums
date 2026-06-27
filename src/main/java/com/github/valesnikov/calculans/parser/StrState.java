@@ -1,4 +1,4 @@
-package com.github.valesnikov.calculans.parser.input;
+package com.github.valesnikov.calculans.parser;
 
 import java.io.IOException;
 import java.nio.file.Files;

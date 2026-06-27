@@ -4,8 +4,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import com.github.valesnikov.calculans.parser.input.StrState;
-
 @FunctionalInterface
 public interface Parser<T> {
     Optional<State<T>> parse(StrState input);

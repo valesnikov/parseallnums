@@ -7,11 +7,11 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.github.valesnikov.calculans.parser.Pair;
 import com.github.valesnikov.calculans.parser.Parser;
 import com.github.valesnikov.calculans.parser.State;
 import com.github.valesnikov.calculans.parser.Unit;
 import com.github.valesnikov.calculans.utils.Arr;
+import com.github.valesnikov.calculans.utils.Pair;
 
 public class Base {
 
