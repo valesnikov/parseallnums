@@ -83,11 +83,14 @@ public class Main {
         };
 
         for (var s : strs) {
-            System.out.println(s + "  ->  " +
-                    skipR(number(), eof()).parse(StrState.fromString(s))
-                            .map(State::value)
-                            .map(BigFraction::toString)
-                            .orElse("<fail>"));
+            var result = skipR(number(), eof())
+                    .parse(StrState.fromString(s))
+                    .map(State::value)
+                    .map(BigFraction::toString);
+
+            System.out.println(s + "  ->  " + result.fold(
+                    error -> error.toString(),
+                    value -> value));
         }
     }
 }

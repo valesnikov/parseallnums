@@ -1,6 +1,5 @@
 package com.github.valesnikov.calculans.parser.combinators;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -92,12 +91,7 @@ public class Base {
 
     public static <T> Parser<List<T>> many1(Parser<T> p) {
         return p.bind(one -> many(p)
-                .map(others -> {
-                    List<T> all = new ArrayList<>();
-                    all.add(one);
-                    all.addAll(others);
-                    return all;
-                }));
+                .map(others -> Arr.concatAll(List.of(one), others)));
     }
 
     public static <T> Parser<List<T>> many(Parser<T> p) {
