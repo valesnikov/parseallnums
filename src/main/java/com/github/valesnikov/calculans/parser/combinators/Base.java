@@ -7,30 +7,35 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import com.github.valesnikov.calculans.parser.ParseError;
 import com.github.valesnikov.calculans.parser.Parser;
 import com.github.valesnikov.calculans.parser.State;
 import com.github.valesnikov.calculans.parser.Unit;
 import com.github.valesnikov.calculans.utils.Arr;
+import com.github.valesnikov.calculans.utils.Either;
 import com.github.valesnikov.calculans.utils.Pair;
 
 public class Base {
 
     public static Parser<Integer> satisfy(Predicate<Integer> pred) {
         return s -> !s.empty() && pred.test(s.chr())
-                ? Optional.of(new State<>(s.chr(), s.next()))
-                : Optional.empty();
+                ? Either.right(State.of(s.chr(), s.next()))
+                : Either.left(ParseError.of(s,
+                        s.empty()
+                                ? "Unexpected EOF"
+                                : "Unexpected character '" + (char) s.chr() + "'"));
     }
 
-    public static <T> Parser<T> fail() {
-        return s -> Optional.empty();
+    public static <T> Parser<T> fail(String message) {
+        return s -> Either.left(ParseError.of(s, message));
     }
 
     public static Parser<Unit> success() {
-        return s -> Optional.of(new State<Unit>(Unit.INSTANCE, s));
+        return s -> Either.right(State.of(Unit.INSTANCE, s));
     }
 
     public static <T> Parser<T> pure(T value) {
-        return s -> Optional.of(new State<T>(value, s));
+        return s -> Either.right(State.of(value, s));
     }
 
     public static <T> Parser<T> or(Parser<T> a, Parser<T> b) {
@@ -48,11 +53,11 @@ public class Base {
     @SafeVarargs
     public static <T> Parser<T> choise(Parser<T>... parsers) {
         return Arrays.stream(parsers)
-                .reduce((p1, p2) -> or(p1, p2)).orElse(fail());
+                .reduce((p1, p2) -> or(p1, p2)).orElse(fail("No parsers provided"));
     }
 
     public static <T, U> Parser<Pair<T, U>> and(Parser<T> p1, Parser<U> other) {
-        return p1.bind(r1 -> other.map(r2 -> new Pair<>(r1, r2)));
+        return p1.bind(r1 -> other.map(r2 -> Pair.of(r1, r2)));
     }
 
     public static <T, U> Parser<U> skip(Parser<T> a, Parser<U> b) {
@@ -65,20 +70,20 @@ public class Base {
 
     public static Parser<Unit> eof() {
         return s -> s.empty()
-                ? Optional.of(new State<>(Unit.INSTANCE, s))
-                : Optional.empty();
+                ? Either.right(State.of(Unit.INSTANCE, s))
+                : Either.left(ParseError.of(s, "End of input expected"));
     }
 
     public static <T> Parser<Unit> not(Parser<T> p) {
-        return s -> p.parse(s).isEmpty()
-                ? Optional.of(new State<>(Unit.INSTANCE, s))
-                : Optional.empty();
+        return s -> p.parse(s).fold(
+                error -> Either.right(State.of(Unit.INSTANCE, s)),
+                success -> Either.left(ParseError.of(s, "Unexpected token")));
     }
 
     public static <T> Parser<Optional<T>> optional(Parser<T> p) {
         return s -> p.parse(s)
-                .map(r -> new State<>(Optional.of(r.value()), r.state()))
-                .or(() -> Optional.of(new State<>(Optional.empty(), s)));
+                .map(r -> State.of(Optional.of(r.value()), r.state()))
+                .or(() -> Either.right(State.of(Optional.empty(), s)));
     }
 
     public static <T, U> Parser<T> optional(Parser<T> p, T dflt) {
@@ -99,13 +104,13 @@ public class Base {
         return s -> p.parse(s)
                 .map(match -> many(p).parse(match.state())
                         .map(rest -> {
-                            return new State<>(
+                            return State.of(
                                     Arr.concatAll(
                                             List.of(match.value()),
                                             rest.value()),
                                     rest.state());
                         }))
-                .orElse(Optional.of(new State<>(List.of(), s)));
+                .orElse(Either.right(State.of(List.of(), s)));
     }
 
     public static <T> Parser<List<T>> sequence(List<Parser<T>> parsers) {

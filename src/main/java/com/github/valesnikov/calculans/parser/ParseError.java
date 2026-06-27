@@ -6,17 +6,32 @@ public class ParseError {
     private final int column;
     private final String message;
 
-    public ParseError(StrState state, String message) {
+    public static ParseError of(StrState state, String message) {
+        return new ParseError(state, message);
+    }
+
+    private ParseError(StrState state, String message) {
         this.index = state.index();
         this.line = state.line();
         this.column = state.column();
         this.message = message;
     }
 
-    public int index() { return index; }
-    public int line() { return line; }
-    public int column() { return column; }
-    public String message() { return message; }
+    public int index() {
+        return index;
+    }
+
+    public int line() {
+        return line;
+    }
+
+    public int column() {
+        return column;
+    }
+
+    public String message() {
+        return message;
+    }
 
     @Override
     public String toString() {
