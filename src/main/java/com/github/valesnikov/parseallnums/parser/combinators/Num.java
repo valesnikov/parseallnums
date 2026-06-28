@@ -60,7 +60,7 @@ public class Num {
     }
 
     private static Parser<BigFraction> dotNum(int radix) {
-        return choise(
+        return choice(
                 intPart(radix).flatMap(i -> dotFractPart(radix).map(f -> i.add(f))),
                 skipR(intPart(radix), chr('.')),
                 dotFractPart(radix),
@@ -69,7 +69,7 @@ public class Num {
 
     private static Parser<BigFraction> expDec() {
         return skip(
-                chr('e'),
+                anyCaseChr('e'),
                 signedBI(digitSeq(10)))
                 .map(n -> n.compareTo(BigInteger.ZERO) < 0
                         ? new BigFraction(BigInteger.ONE, BigInteger.TEN.pow(-n.intValue()))
@@ -78,29 +78,31 @@ public class Num {
 
     private static Parser<BigFraction> expBin() {
         return skip(
-                chr('p'),
+                anyCaseChr('p'),
                 signedBI(digitSeq(10)))
                 .map(n -> n.compareTo(BigInteger.ZERO) < 0
                         ? new BigFraction(BigInteger.ONE, BigInteger.TWO.pow(-n.intValue()))
                         : new BigFraction(BigInteger.TWO.pow(n.intValue())));
     }
 
-    private static Parser<BigFraction> exp() {
-        return or(expDec(), expBin());
+    private static Parser<BigFraction> dotNumExpDec() {
+        return dotNum(10).flatMap(num -> optional(or(expDec(), expBin()), BigFraction.ONE).map(ex -> num.multiply(ex)));
+    }
+
+    private static Parser<BigFraction> dotNumExpBin(int radix) {
+        return dotNum(radix).flatMap(num -> optional(expBin(), BigFraction.ONE).map(ex -> num.multiply(ex)));
     }
 
     private static Parser<BigFraction> dotNumExp(int radix) {
-        return dotNum(radix)
-                .flatMap(num -> optional(exp(), BigFraction.ONE)
-                        .map(ex -> num.multiply(ex)));
+        return radix == 10 ? dotNumExpDec() : dotNumExpBin(radix);
     }
 
     public static Parser<BigFraction> number() {
-        return signed(choise(
-                skip(and(chr('0'), chr('x')), dotNumExp(16)),
-                skip(and(chr('0'), chr('d')), dotNumExp(10)),
-                skip(and(chr('0'), chr('o')), dotNumExp(8)),
-                skip(and(chr('0'), chr('b')), dotNumExp(2)),
+        return signed(choice(
+                skip(and(chr('0'), anyCaseChr('x')), dotNumExp(16)),
+                skip(and(chr('0'), anyCaseChr('d')), dotNumExp(10)),
+                skip(and(chr('0'), anyCaseChr('o')), dotNumExp(8)),
+                skip(and(chr('0'), anyCaseChr('b')), dotNumExp(2)),
                 dotNumExp(10)));
     }
 }

@@ -33,13 +33,17 @@ public class Char {
         return satisfy(c -> Character.isLetter(c));
     }
 
-    public static Parser<Integer> letterOrDidit() {
+    public static Parser<Integer> letterOrDigit() {
         return satisfy(c -> Character.isLetterOrDigit(c));
+    }
+
+    public static Parser<Integer> anyCaseChr(int character) {
+        return satisfy(c -> Character.toLowerCase(c) == Character.toLowerCase(character));
     }
 
     public static Parser<String> identifier() {
         return letter()
-                .flatMap(c -> many(letterOrDidit())
+                .flatMap(c -> many(letterOrDigit())
                         .map(cs -> Arr.concatAll(List.of(c), cs))
                         .map(Arr::cpToStr));
     }

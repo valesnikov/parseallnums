@@ -51,7 +51,7 @@ public class Base {
     }
 
     @SafeVarargs
-    public static <T> Parser<T> choise(Parser<T>... parsers) {
+    public static <T> Parser<T> choice(Parser<T>... parsers) {
         return Arrays.stream(parsers)
                 .reduce((p1, p2) -> or(p1, p2)).orElse(fail("No parsers provided"));
     }
