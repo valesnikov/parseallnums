@@ -38,7 +38,7 @@ public class Char {
 
     public static Parser<String> identifier() {
         return letter()
-                .bind(c -> many(letterOrDidit())
+                .flatMap(c -> many(letterOrDidit())
                         .map(cs -> Arr.concatAll(List.of(c), cs))
                         .map(Arr::cpToStr));
     }

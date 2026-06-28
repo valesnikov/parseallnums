@@ -23,7 +23,7 @@ public class Num {
 
     private static Parser<BigFraction> signed(Parser<BigFraction> p) {
         return optional(or(chr('-'), chr('+')), (int) '+')
-                .bind(sign -> p
+                .flatMap(sign -> p
                         .map(value -> sign == '-'
                                 ? value.negate()
                                 : value));
@@ -31,7 +31,7 @@ public class Num {
 
     private static Parser<BigInteger> signedBI(Parser<BigInteger> p) {
         return optional(or(chr('-'), chr('+')), (int) '+')
-                .bind(sign -> p
+                .flatMap(sign -> p
                         .map(value -> sign == '-'
                                 ? value.negate()
                                 : value));
@@ -60,7 +60,7 @@ public class Num {
 
     private static Parser<BigFraction> dotNum(int radix) {
         return choise(
-                intPart(radix).bind(i -> dotFractPart(radix).map(f -> i.add(f))),
+                intPart(radix).flatMap(i -> dotFractPart(radix).map(f -> i.add(f))),
                 skipR(intPart(radix), chr('.')),
                 dotFractPart(radix),
                 intPart(radix));
@@ -90,7 +90,7 @@ public class Num {
 
     private static Parser<BigFraction> dotNumExp(int radix) {
         return dotNum(radix)
-                .bind(num -> optional(exp(), BigFraction.ONE)
+                .flatMap(num -> optional(exp(), BigFraction.ONE)
                         .map(ex -> num.multiply(ex)));
     }
 

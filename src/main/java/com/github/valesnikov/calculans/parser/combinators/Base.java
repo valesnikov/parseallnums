@@ -10,9 +10,9 @@ import com.github.valesnikov.calculans.parser.ParseError;
 import com.github.valesnikov.calculans.parser.Parser;
 import com.github.valesnikov.calculans.parser.State;
 import com.github.valesnikov.calculans.parser.Unit;
-import com.github.valesnikov.calculans.utils.Arr;
 import com.github.valesnikov.calculans.utils.Either;
 import com.github.valesnikov.calculans.utils.Pair;
+import static com.github.valesnikov.calculans.utils.Arr.*;
 
 public class Base {
 
@@ -56,7 +56,7 @@ public class Base {
     }
 
     public static <T, U> Parser<Pair<T, U>> and(Parser<T> p1, Parser<U> other) {
-        return p1.bind(r1 -> other.map(r2 -> Pair.of(r1, r2)));
+        return p1.flatMap(r1 -> other.map(r2 -> Pair.of(r1, r2)));
     }
 
     public static <T, U> Parser<U> skip(Parser<T> a, Parser<U> b) {
@@ -90,8 +90,8 @@ public class Base {
     }
 
     public static <T> Parser<List<T>> many1(Parser<T> p) {
-        return p.bind(one -> many(p)
-                .map(others -> Arr.concatAll(List.of(one), others)));
+        return p.flatMap(one -> many(p)
+                .map(others -> concatAll(List.of(one), others)));
     }
 
     public static <T> Parser<List<T>> many(Parser<T> p) {
@@ -99,7 +99,7 @@ public class Base {
                 .map(match -> many(p).parse(match.state())
                         .map(rest -> {
                             return State.of(
-                                    Arr.concatAll(
+                                    concatAll(
                                             List.of(match.value()),
                                             rest.value()),
                                     rest.state());
@@ -111,8 +111,8 @@ public class Base {
         return parsers.isEmpty()
                 ? pure(List.of())
                 : parsers.get(0)
-                        .bind(val -> sequence(parsers.subList(1, parsers.size()))
-                                .map(vals -> Arr.concatAll(List.of(val), vals)));
+                        .flatMap(val -> sequence(parsers.subList(1, parsers.size()))
+                                .map(vals -> concatAll(List.of(val), vals)));
 
     }
 
