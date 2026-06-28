@@ -1,10 +1,11 @@
-package com.github.valesnikov.calculans.parser.combinators;
+package com.github.valesnikov.parseallnums.parser.combinators;
 
-import com.github.valesnikov.calculans.parser.Parser;
-import com.github.valesnikov.calculans.utils.Arr;
-import static com.github.valesnikov.calculans.parser.combinators.Base.*;
+import static com.github.valesnikov.parseallnums.parser.combinators.Base.*;
 
 import java.util.List;
+
+import com.github.valesnikov.parseallnums.parser.Parser;
+import com.github.valesnikov.parseallnums.utils.Arr;
 
 public class Char {
     public static Parser<Integer> chr(int character) {

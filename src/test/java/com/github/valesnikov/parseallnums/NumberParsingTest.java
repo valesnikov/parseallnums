@@ -1,11 +1,12 @@
-package com.github.valesnikov.calculans;
+package com.github.valesnikov.parseallnums;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-import com.github.valesnikov.calculans.parser.StrState;
-import static com.github.valesnikov.calculans.parser.combinators.Base.*;
-import static com.github.valesnikov.calculans.parser.combinators.Num.*;
+import com.github.valesnikov.parseallnums.parser.StrState;
+
+import static com.github.valesnikov.parseallnums.parser.combinators.Base.*;
+import static com.github.valesnikov.parseallnums.parser.combinators.Num.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.commons.math3.fraction.BigFraction;
 

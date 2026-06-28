@@ -1,4 +1,4 @@
-package com.github.valesnikov.calculans.parser;
+package com.github.valesnikov.parseallnums.parser;
 
 public final class Unit {
     public static final Unit INSTANCE = new Unit();

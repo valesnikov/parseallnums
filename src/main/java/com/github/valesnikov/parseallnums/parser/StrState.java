@@ -1,4 +1,4 @@
-package com.github.valesnikov.calculans.parser;
+package com.github.valesnikov.parseallnums.parser;
 
 import java.io.IOException;
 import java.nio.file.Files;

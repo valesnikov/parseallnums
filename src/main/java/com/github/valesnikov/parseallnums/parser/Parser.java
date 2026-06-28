@@ -1,7 +1,8 @@
-package com.github.valesnikov.calculans.parser;
+package com.github.valesnikov.parseallnums.parser;
 
 import java.util.function.Function;
-import com.github.valesnikov.calculans.utils.Either;
+
+import com.github.valesnikov.parseallnums.utils.Either;
 
 @FunctionalInterface
 public interface Parser<T> {

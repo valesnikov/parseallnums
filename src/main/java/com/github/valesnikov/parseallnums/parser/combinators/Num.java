@@ -1,13 +1,14 @@
-package com.github.valesnikov.calculans.parser.combinators;
+package com.github.valesnikov.parseallnums.parser.combinators;
 
-import com.github.valesnikov.calculans.parser.Parser;
-import com.github.valesnikov.calculans.utils.Arr;
+import static com.github.valesnikov.parseallnums.parser.combinators.Base.*;
+import static com.github.valesnikov.parseallnums.parser.combinators.Char.*;
 
-import static com.github.valesnikov.calculans.parser.combinators.Base.*;
-import static com.github.valesnikov.calculans.parser.combinators.Char.*;
 import java.math.BigInteger;
 
 import org.apache.commons.math3.fraction.BigFraction;
+
+import com.github.valesnikov.parseallnums.parser.Parser;
+import com.github.valesnikov.parseallnums.utils.Arr;
 
 public class Num {
     private static Parser<BigInteger> digitSeq(int radix) {

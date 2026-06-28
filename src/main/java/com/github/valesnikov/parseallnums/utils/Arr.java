@@ -1,4 +1,4 @@
-package com.github.valesnikov.calculans.utils;
+package com.github.valesnikov.parseallnums.utils;
 
 import java.util.Arrays;
 import java.util.Collection;

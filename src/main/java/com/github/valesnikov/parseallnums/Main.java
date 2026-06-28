@@ -1,12 +1,12 @@
-package com.github.valesnikov.calculans;
+package com.github.valesnikov.parseallnums;
+
+import static com.github.valesnikov.parseallnums.parser.combinators.Base.*;
+import static com.github.valesnikov.parseallnums.parser.combinators.Num.*;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
-import com.github.valesnikov.calculans.parser.State;
-import com.github.valesnikov.calculans.parser.StrState;
-
-import static com.github.valesnikov.calculans.parser.combinators.Base.*;
-import static com.github.valesnikov.calculans.parser.combinators.Num.*;
+import com.github.valesnikov.parseallnums.parser.State;
+import com.github.valesnikov.parseallnums.parser.StrState;
 
 public class Main {
     public static void main(String[] args) {

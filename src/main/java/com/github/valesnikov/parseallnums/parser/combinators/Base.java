@@ -1,4 +1,6 @@
-package com.github.valesnikov.calculans.parser.combinators;
+package com.github.valesnikov.parseallnums.parser.combinators;
+
+import static com.github.valesnikov.parseallnums.utils.Arr.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,13 +8,12 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.github.valesnikov.calculans.parser.ParseError;
-import com.github.valesnikov.calculans.parser.Parser;
-import com.github.valesnikov.calculans.parser.State;
-import com.github.valesnikov.calculans.parser.Unit;
-import com.github.valesnikov.calculans.utils.Either;
-import com.github.valesnikov.calculans.utils.Pair;
-import static com.github.valesnikov.calculans.utils.Arr.*;
+import com.github.valesnikov.parseallnums.parser.ParseError;
+import com.github.valesnikov.parseallnums.parser.Parser;
+import com.github.valesnikov.parseallnums.parser.State;
+import com.github.valesnikov.parseallnums.parser.Unit;
+import com.github.valesnikov.parseallnums.utils.Either;
+import com.github.valesnikov.parseallnums.utils.Pair;
 
 public class Base {
 

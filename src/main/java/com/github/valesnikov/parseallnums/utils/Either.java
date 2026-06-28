@@ -1,4 +1,4 @@
-package com.github.valesnikov.calculans.utils;
+package com.github.valesnikov.parseallnums.utils;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
