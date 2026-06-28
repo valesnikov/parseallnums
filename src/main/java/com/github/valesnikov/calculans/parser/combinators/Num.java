@@ -5,14 +5,16 @@ import com.github.valesnikov.calculans.utils.Arr;
 
 import static com.github.valesnikov.calculans.parser.combinators.Base.*;
 import static com.github.valesnikov.calculans.parser.combinators.Char.*;
-
 import java.math.BigInteger;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
 public class Num {
     private static Parser<BigInteger> digitSeq(int radix) {
-        return many1(digit(radix)).map(Arr::concatAllStr).map(s -> new BigInteger(s, radix));
+        return many1(digit(radix))
+                .map(Arr::concatAll)
+                .map(Arr::cpToStr)
+                .map(s -> new BigInteger(s, radix));
     }
 
     private static Parser<BigFraction> intPart(int radix) {
@@ -37,7 +39,8 @@ public class Num {
 
     private static Parser<BigFraction> fractPart(int radix) {
         return many1(digit(radix))
-                .map(Arr::concatAllStr)
+                .map(Arr::concatAll)
+                .map(Arr::cpToStr)
                 .map(s -> s.replaceAll("0+$", ""))
                 .map(s -> {
                     if (s.isEmpty()) {

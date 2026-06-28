@@ -5,9 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class Arr {
-    @SafeVarargs
-    public static String concatAllStr(Collection<Integer>... lists) {
-        return concatAll(lists).stream()
+    public static String cpToStr(Collection<Integer> codePoints) {
+        return codePoints.stream()
                 .collect(StringBuilder::new,
                         (sb, cp) -> sb.appendCodePoint(cp),
                         StringBuilder::append)

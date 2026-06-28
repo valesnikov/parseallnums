@@ -2,7 +2,6 @@ package com.github.valesnikov.calculans.parser.combinators;
 
 import com.github.valesnikov.calculans.parser.Parser;
 import com.github.valesnikov.calculans.utils.Arr;
-
 import static com.github.valesnikov.calculans.parser.combinators.Base.*;
 
 import java.util.List;
@@ -17,7 +16,8 @@ public class Char {
                 .codePoints()
                 .mapToObj(Char::chr)
                 .toList())
-                .map(Arr::concatAllStr);
+                .map(Arr::concatAll)
+                .map(Arr::cpToStr);
     }
 
     public static Parser<Integer> whiteSpace() {
@@ -39,6 +39,7 @@ public class Char {
     public static Parser<String> identifier() {
         return letter()
                 .bind(c -> many(letterOrDidit())
-                        .map(cs -> Arr.concatAllStr(List.of(c), cs)));
+                        .map(cs -> Arr.concatAll(List.of(c), cs))
+                        .map(Arr::cpToStr));
     }
 }
