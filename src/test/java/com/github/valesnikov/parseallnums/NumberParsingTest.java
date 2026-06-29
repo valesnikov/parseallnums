@@ -24,12 +24,12 @@ public class NumberParsingTest {
 
     @Test
     public void testDecimalNumbers() {
-        assertParsedAs("1.0", new BigFraction(1));
+        assertParsedAs("1.00", new BigFraction(1));
         assertParsedAs("0.5", new BigFraction(1, 2));
         assertParsedAs("10.", new BigFraction(10));
         assertParsedAs(".25", new BigFraction(1, 4));
         assertParsedAs("-3.1415", new BigFraction(-31415, 10000));
-        assertParsedAs("1.5p2", new BigFraction(6));
+        assertParsedAs("1.50p2", new BigFraction(6));
         assertParsedAs("2p3", new BigFraction(16));
         assertParsedAs("1.5e2", new BigFraction(150));
         assertParsedAs("0.5e3", new BigFraction(500));
@@ -40,7 +40,7 @@ public class NumberParsingTest {
         assertParsedAs("1e10", new BigFraction(10000000000L));
         assertParsedAs("1e+10", new BigFraction(10000000000L));
         assertParsedAs("1e-10", new BigFraction(1, 10000000000L));
-        assertParsedAs("3.14e2", new BigFraction(314));
+        assertParsedAs("3.140e2", new BigFraction(314));
         assertParsedAs("-2.5e-3", new BigFraction(-25, 10000));
         assertParsedAs(".5e4", new BigFraction(5000));
         assertParsedAs("10.e-2", new BigFraction(1, 10));

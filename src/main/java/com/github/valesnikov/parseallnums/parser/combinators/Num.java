@@ -42,17 +42,11 @@ public class Num {
         return many1(digit(radix))
                 .map(Arr::concatAll)
                 .map(Arr::cpToStr)
-                .map(s -> s.replaceAll("0+$", ""))
-                .map(s -> {
-                    if (s.isEmpty()) {
-                        return BigFraction.ZERO;
-                    } else {
-                        final var fracLen = s.length();
-                        final var nom = new BigInteger(s, radix);
-                        final var denom = BigInteger.valueOf(radix).pow(fracLen);
-                        return new BigFraction(nom, denom);
-                    }
-                });
+                .map(s -> s.isEmpty()
+                        ? BigFraction.ZERO
+                        : new BigFraction(
+                                new BigInteger(s, radix),
+                                BigInteger.valueOf(radix).pow(s.length())));
     }
 
     private static Parser<BigFraction> dotFractPart(int radix) {
