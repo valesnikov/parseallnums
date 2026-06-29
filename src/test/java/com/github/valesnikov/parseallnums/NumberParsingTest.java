@@ -124,6 +124,63 @@ public class NumberParsingTest {
         assertParseFails("++1");
     }
 
+    @Test
+    public void testDigitSeparators() {
+        assertParsedAs("1_000", new BigFraction(1000));
+        assertParsedAs("1_000_000", new BigFraction(1000000));
+        assertParsedAs("1_000.5", new BigFraction(2001, 2));
+        assertParsedAs("0xCAFE_BABE", new BigFraction(0xCAFEBABEL));
+        assertParsedAs("0b1010_1010", new BigFraction(0xAA));
+        assertParsedAs("0o7_5_5", new BigFraction(493));
+        assertParsedAs("1.5_0", new BigFraction(3, 2));
+        assertParsedAs("1_0.", new BigFraction(10));
+        assertParsedAs("0.1_2_3", new BigFraction(123, 1000));
+        assertParsedAs("1e1_0", new BigFraction(10000000000L));
+        assertParsedAs("1p1_0", new BigFraction(1024));
+        assertParsedAs("0x1.8_0p+4", new BigFraction(24));
+        assertParsedAs("0x1.0_0p2", new BigFraction(4));
+        assertParsedAs("0b1.0_1p2", new BigFraction(5));
+        assertParsedAs("0o3.4_0p-1", new BigFraction(7, 4));
+
+        assertParsedAs("1'000", new BigFraction(1000));
+        assertParsedAs("1'000'000", new BigFraction(1000000));
+        assertParsedAs("0xCAFE'BABE", new BigFraction(0xCAFEBABEL));
+        assertParsedAs("0b1010'1010", new BigFraction(0xAA));
+        assertParsedAs("0o7'5'5", new BigFraction(493));
+        assertParsedAs("1.5'0", new BigFraction(3, 2));
+        assertParsedAs("1'0.", new BigFraction(10));
+        assertParsedAs("0.1'2'3", new BigFraction(123, 1000));
+        assertParsedAs("1e1'0", new BigFraction(10000000000L));
+        assertParsedAs("1p1'0", new BigFraction(1024));
+        assertParsedAs("0x1.8'0p+4", new BigFraction(24));
+
+        assertParseFails("_1000");
+        assertParseFails("1000_");
+        assertParseFails("1__000");
+        assertParseFails("1_.0");
+        assertParseFails("1._0");
+        assertParseFails("0x_CAFE");
+        assertParseFails("0b_1010");
+        assertParseFails("0o_755");
+        assertParseFails("0x1_p10");
+        assertParseFails("1e_10");
+        assertParseFails("1p_10");
+        assertParseFails("1e1_0_");
+        assertParseFails("0x1.8_p4");
+
+        assertParseFails("'1000");
+        assertParseFails("1000'");
+        assertParseFails("1''000");
+        assertParseFails("1'.0");
+        assertParseFails("1.'0");
+        assertParseFails("0x'CAFE");
+        assertParseFails("0b'1010");
+        assertParseFails("0o'755");
+        assertParseFails("0x1'p10");
+        assertParseFails("1e'10");
+        assertParseFails("1p'10");
+    }
+
     private void assertParsedAs(String input, BigFraction expectedValue) {
         var result = skipR(number(), eof())
                 .parse(StrState.fromString(input));

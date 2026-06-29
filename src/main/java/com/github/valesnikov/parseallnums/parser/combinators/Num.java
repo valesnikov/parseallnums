@@ -4,6 +4,8 @@ import static com.github.valesnikov.parseallnums.parser.combinators.Base.*;
 import static com.github.valesnikov.parseallnums.parser.combinators.Char.*;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
@@ -11,10 +13,24 @@ import com.github.valesnikov.parseallnums.parser.Parser;
 import com.github.valesnikov.parseallnums.utils.Arr;
 
 public class Num {
+
+    private static Parser<Integer> digitWithSeparator(int radix) {
+        return or(skip(or(chr('_'), chr('\'')), digit(radix)), digit(radix));
+    }
+
+    private static Parser<String> digitSeqStr(int radix) {
+        return digit(radix)
+                .flatMap(first -> many(digitWithSeparator(radix))
+                        .map(rest -> {
+                            List<Integer> all = new ArrayList<>();
+                            all.add(first);
+                            all.addAll(rest);
+                            return Arr.cpToStr(all);
+                        }));
+    }
+
     private static Parser<BigInteger> digitSeq(int radix) {
-        return many1(digit(radix))
-                .map(Arr::concatAll)
-                .map(Arr::cpToStr)
+        return digitSeqStr(radix)
                 .map(s -> new BigInteger(s, radix));
     }
 
@@ -39,9 +55,7 @@ public class Num {
     }
 
     private static Parser<BigFraction> fractPart(int radix) {
-        return many1(digit(radix))
-                .map(Arr::concatAll)
-                .map(Arr::cpToStr)
+        return digitSeqStr(radix)
                 .map(s -> s.isEmpty()
                         ? BigFraction.ZERO
                         : new BigFraction(
