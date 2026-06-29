@@ -4,7 +4,6 @@ import static com.github.valesnikov.parseallnums.parser.combinators.Base.*;
 import static com.github.valesnikov.parseallnums.parser.combinators.Char.*;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.fraction.BigFraction;
