@@ -21,12 +21,8 @@ public class Num {
     private static Parser<String> digitSeqStr(int radix) {
         return digit(radix)
                 .flatMap(first -> many(digitWithSeparator(radix))
-                        .map(rest -> {
-                            List<Integer> all = new ArrayList<>();
-                            all.add(first);
-                            all.addAll(rest);
-                            return Arr.cpToStr(all);
-                        }));
+                        .map(rest -> Arr.concatAll(List.of(first), rest))
+                        .map(Arr::cpToStr));
     }
 
     private static Parser<BigInteger> digitSeq(int radix) {
