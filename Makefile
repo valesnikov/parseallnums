@@ -10,4 +10,4 @@ jar:
 	mvn package
 
 run:
-	mvn exec:java -Dexec.mainClass="com.github.valesnikov.calculans.Main"
+	mvn exec:java -Dexec.mainClass="com.github.valesnikov.parseallnums.Main"
