@@ -88,16 +88,11 @@ public class Num {
                         : new BigFraction(BigInteger.TWO.pow(n.intValue())));
     }
 
-    private static Parser<BigFraction> dotNumExpDec() {
-        return dotNum(10).flatMap(num -> optional(or(expDec(), expBin()), BigFraction.ONE).map(ex -> num.multiply(ex)));
-    }
-
-    private static Parser<BigFraction> dotNumExpBin(int radix) {
-        return dotNum(radix).flatMap(num -> optional(expBin(), BigFraction.ONE).map(ex -> num.multiply(ex)));
-    }
-
     private static Parser<BigFraction> dotNumExp(int radix) {
-        return radix == 10 ? dotNumExpDec() : dotNumExpBin(radix);
+        return dotNum(radix).flatMap(
+                num -> optional(
+                        radix <= 14 ? or(expDec(), expBin()) : expBin(), BigFraction.ONE)
+                        .map(ex -> num.multiply(ex)));
     }
 
     public static Parser<BigFraction> number() {
