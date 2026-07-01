@@ -25,7 +25,7 @@ public class Main {
                     throw new RuntimeException(e);
                 }
             }).takeWhile(line -> line != null)
-                    .map(line -> between(many(whiteSpace()), number(), many(whiteSpace()))
+                    .map(line -> skipR(between(many(whiteSpace()), number(), many(whiteSpace())), eof())
                             .parse(StrState.fromString(line))
                             .map(State::value)
                             .map(BigFraction::toString)
